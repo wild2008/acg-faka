@@ -1,8 +1,3 @@
-FROM composer:2 AS composer_deps
-WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-
 FROM php:8.2-fpm-bookworm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -26,7 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /var/www/html
 
 COPY . /var/www/html
-COPY --from=composer_deps /app/vendor /var/www/html/vendor
 COPY .zeabur/nginx.conf /etc/nginx/conf.d/default.conf
 COPY .zeabur/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY .zeabur/entrypoint.sh /entrypoint.sh
