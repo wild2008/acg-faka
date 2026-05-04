@@ -3,6 +3,5 @@
 README.md
 LICENSE
 node_modules
-vendor
 *.log
 .zeabur/*.local
